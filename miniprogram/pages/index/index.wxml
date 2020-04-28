@@ -1,0 +1,30 @@
+<!--miniprogram/pages/index/index.wxml-->
+<view class="container">
+  <view class="title-wrap">
+    <text class="title">上传带有人像的照片，智能裁剪可以防止人像被切割，从而获得更好的缩略图体验</text>
+  </view>
+
+  <view class="preview">
+    <view class="original-wrap">
+      <image mode="widthFix" src="{{ originalPath ? originalPath : '/images/preview@300x300.png' }}"></image>
+    </view>
+    <view class="crop-wrap">
+      <view class="crop-item">
+        <image src="{{ cropItemPaths[0] ? cropItemPaths[0] : '/images/preview@50x50.png' }}"></image>
+      </view>
+      <view class="crop-item">
+        <image src="{{ cropItemPaths[1] ? cropItemPaths[1] : '/images/preview@150x100.png' }}"></image>
+      </view>
+      <view class="crop-item">
+        <image src="{{ cropItemPaths[2] ? cropItemPaths[2] : '/images/preview@80x45.png' }}"></image>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer" bindtap="upload">
+    <view class="btn">
+      <image class="icon" src="/images/icon_upload.png"></image>
+      <text class="icon-text">上传</text>
+    </view>
+  </view>
+</view>
