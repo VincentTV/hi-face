@@ -17,11 +17,9 @@ tcb.registerExtension(extCi);
 async function verify(cloudPath) {
   try {
     const res = await tcb.invokeExtension('CloudInfinite', {
-      action: 'DetectType',
-      cloudPath,
-      operations: { type: 'porn,terrorist,politics' }
+      action: 'DetectLabel',
+      cloudPath
     })
-    console.log(res)
     return res.data.RecognitionResult
   } catch (err) {
     return err

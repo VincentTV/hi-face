@@ -10,123 +10,84 @@ Page({
    */
   data: {
     originalPath: '',   // 原图地址
-    cropItemPaths: []   // 裁剪后地址数组
+    fileID: '',         // fileID
+    cloudPath: '',       // 云存储路径
+    pass: true,          // 审核结果
+    labels: []
   },
-  // async/await
   upload: async function () {
-    let cloudPath = ''
-    let sizes = ['50x50', '150x100', '80x45']
-    let cropItemPaths = []
+    if (this.data.pass === false) {
+      this.setData({ pass: true })
+    }
     try {
       // 选择图片
       const image = await wxp.chooseImage({ count: 1 })
       wx.showLoading({
-        title: '加载中',
+        title: '获取特征中',
       })
       // 上传图片
-      let filename = Math.floor(Math.random() * 1000000) + /\.[^\.]+$/.exec(image.tempFilePaths[0])
-      cloudPath = 'original-images/' + filename
+      const filename = Math.floor(Math.random() * 1000000) + /\.[^\.]+$/.exec(image.tempFilePaths[0])
+      this.data.cloudPath = 'original-images/' + filename
       const file = await wx.cloud.uploadFile({
-        cloudPath,
+        cloudPath: this.data.cloudPath,
         filePath: image.tempFilePaths[0]
       })
+      this.data.fileID = file.fileID
       // 图片安全审核
-      const verify = await wxp.cloud.callFunction({
-        name: 'image-verify',
-        data: {
-          cloudPath
-        }
-      })
-      const { PornInfo, TerroristInfo, PoliticsInfo } = verify.result
-      if (PornInfo.Code || TerroristInfo.Code || PoliticsInfo.Code === 0) {
-        this.setData({
-          originalPath: file.fileID
-        })
-      } else {
-        throw new Error('图片审核失败')
-      }
-      // 裁剪图片
-      const tempFile = await wxp.cloud.getTempFileURL({
-        fileList: [file.fileID]
-      })
-      let tempFileURL = tempFile.fileList[0].tempFileURL
-      sizes.forEach(item => {
-        cropItemPaths.push(tempFileURL + '?imageMogr2/scrop/' + item)
-      })
-      this.setData({ cropItemPaths })
-      wx.hideLoading()
+      await this.verify()
     } catch (err) {
       console.log(err)
+      wx.showToast({
+        title: '上传图片失败，请重试',
+        icon: 'none',
+        duration: 2000
+      })
       this.setData({
-        originalPath: '',
-        cropItemPaths: []
+        originalPath: ''
       })
     }
   },
-  // Promise 版本
-  // upload: async function () {
-  //   let cloudPath = ''
-  //   let fileID = ''
-  //   let sizes = ['50x50', '150x100', '80x45']
-  //   wxp
-  //     // 选择图片
-  //     .chooseImage({ count: 1 })
-  //     // 图片上传云存储
-  //     .then(res=>{
-  //       let filename = Math.floor(Math.random() * 1000000) + /\.[^\.]+$/.exec(res.tempFilePaths[0])
-  //       cloudPath = 'original-images/' + filename
-  //       wx.showLoading({
-  //         title: '加载中',
-  //       })
-  //       return wx.cloud.uploadFile({
-  //         cloudPath,
-  //         filePath: res.tempFilePaths[0]
-  //       })
-  //     })
-  //     // 上传成功，提交审核图片
-  //     .then(res => {
-  //       fileID = res.fileID
-  //       return wxp.cloud.callFunction({
-  //         name: 'image-verify',
-  //         data: {
-  //           cloudPath
-  //         }
-  //       })
-  //     })
-  //     // 审核通过，获取文件链接
-  //     .then(res => {
-  //       const { PornInfo, TerroristInfo, PoliticsInfo } = res.result
-  //       const verified = PornInfo.Code || TerroristInfo.Code || PoliticsInfo.Code
-  //       if (verified === 0) {
-  //         this.setData({
-  //           originalPath: fileID
-  //         })
-  //       } else {
-  //         throw new Error('图片审核失败')
-  //       }
-  //       return wxp.cloud.getTempFileURL({
-  //         fileList: [ fileID ]
-  //       })
-  //     })
-  //     // 裁剪图片
-  //     .then(res => {
-  //       let tempFileURL = res.fileList[0].tempFileURL
-  //       let cropItemPaths = []
-  //       sizes.forEach(item => {
-  //         cropItemPaths.push(tempFileURL + '?imageMogr2/scrop/' + item)
-  //       })
-  //       this.setData({ cropItemPaths })
-  //       wx.hideLoading()
-  //     })
-  //     // 错误处理
-  //     .catch(err => {
-  //       console.log(err)
-  //       this.setData({
-  //         originalPath: '',
-  //         cropItemPaths: []
-  //       })
-  //     })
-  // },
+  async verify () {
+    const verify = await wxp.cloud.callFunction({
+      name: 'image-verify',
+      data: {
+        cloudPath: this.data.cloudPath
+      }
+    })
+    const { PornInfo, TerroristInfo, PoliticsInfo } = verify.result
+    if (PornInfo.Score < 90 && TerroristInfo.Score < 90 && PoliticsInfo.Score < 90) {
+      // 获取标签
+      await this.getImageTag()
+    } else {
+      wx.hideLoading()
+      wx.showToast({
+        title: '图片审核未通过',
+        icon: 'none',
+        duration: 4000
+      })
+      this.setData({
+        originalPath: '',
+        labels: [],
+        pass: false
+      })
+      await wx.cloud.deleteFile({
+        fileList: [this.data.fileID]
+      })
+    }
+  },
+  async getImageTag () {
+    const tagInfo = await wxp.cloud.callFunction({
+      name: 'image-tag',
+      data: {
+        cloudPath: this.data.cloudPath
+      }
+    })
+    wx.hideLoading()
+    this.setData({
+      originalPath: this.data.fileID,
+      labels: tagInfo.result.Labels
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载

@@ -2,16 +2,17 @@
 .container {
   position: relative;
   min-height: 100%;
-  padding-bottom: 94px;
+  padding-bottom: 188rpx;
   box-sizing: border-box;
 }
 
 .title-wrap {
-  padding: 60rpx;
+  padding-top: 60rpx;
+  padding-bottom: 100rpx;
 }
 .title-wrap .title {
   color: #aaa;
-  font-size: 14px;
+  font-size: 28rpx;
   text-align: center;
   display: block;
 }
@@ -24,41 +25,45 @@
 .preview image {
   width: 100%;
   height: 100%;
+  vertical-align: middle;
 }
 .preview .original-wrap {
   width: 600rpx;
-  max-height: 600rpx;
-  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px dashed #aaa;
 }
-.preview .crop-wrap {
+
+.msg {
+  width: 600rpx;
+  margin: 60rpx auto;
+  color: #e74c3c;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.tag-wrap {
+  width: 600rpx;
+  margin: 60rpx auto;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin: 60rpx 0;
+  flex-wrap: wrap;
 }
-.preview .crop-wrap .crop-item:nth-child(1){
-  width: 100rpx;
-  height: 100rpx;
-}
-.preview .crop-wrap .crop-item:nth-child(2){
-  width: 300rpx;
-  height: 200rpx;
-  margin-left: 60rpx;
-  margin-right: 30rpx;
-}
-.preview .crop-wrap .crop-item:nth-child(3){
-  width: 160rpx;
-  height: 90rpx;
+.tag-wrap .tag-item {
+  border: 1px solid #979797;
+  font-size: 28rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 0 14rpx;
+  margin: 0 10rpx;
 }
 
 .footer {
   width: 100%;
-  height: 94px;
+  height: 188rpx;
   background-color: #3172EE;
-  padding: 20px 0;
+  padding: 34rpx 0;
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   bottom: 0;
 }
 .footer .btn {
@@ -67,12 +72,23 @@
   align-items: center;
 }
 .footer .icon {
-  width: 27px;
-  height: 27px;
-  margin-right: 10px;
+  width: 54rpx;
+  height: 54rpx;
+  margin-right: 24rpx;
 }
 .footer .icon-text {
   color: #fff;
-  font-size: 18px;
+  font-size: 36rpx;
+}
+
+.coryright {
+  width: 750rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  position: fixed;
+  bottom: 188rpx;
+  color: #ccc;
+  font-size: 24rpx;
 }
 
