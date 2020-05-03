@@ -54,7 +54,7 @@
   height: 56rpx;
   line-height: 56rpx;
   padding: 0 14rpx;
-  margin: 0 10rpx;
+  margin: 10rpx;
 }
 
 .footer {

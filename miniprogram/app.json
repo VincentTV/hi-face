@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/detectface/detectface",
     "pages/index/index"
   ],
   "window": {

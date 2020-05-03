@@ -1,7 +1,7 @@
 // miniprogram/pages/index/index.js
-import { promisifyAll } from 'miniprogram-api-promise';
-const wxp = {}
-promisifyAll(wx, wxp)
+// import { promisifyAll } from 'miniprogram-api-promise';
+// const wxp = {}
+// promisifyAll(wx, wxp)
 
 Page({
 
@@ -21,7 +21,7 @@ Page({
     }
     try {
       // 选择图片
-      const image = await wxp.chooseImage({ count: 1 })
+      const image = await wx.chooseImage({ count: 1 })
       wx.showLoading({
         title: '获取特征中',
       })
@@ -48,7 +48,7 @@ Page({
     }
   },
   async verify () {
-    const verify = await wxp.cloud.callFunction({
+    const verify = await wx.cloud.callFunction({
       name: 'image-verify',
       data: {
         cloudPath: this.data.cloudPath
@@ -76,7 +76,7 @@ Page({
     }
   },
   async getImageTag () {
-    const tagInfo = await wxp.cloud.callFunction({
+    const tagInfo = await wx.cloud.callFunction({
       name: 'image-tag',
       data: {
         cloudPath: this.data.cloudPath

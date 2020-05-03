@@ -1,0 +1,62 @@
+<view class="page" style="background-color:{{imageAve ? imageAve : ''}};">
+  <view class="container" style="padding-top:{{safeTop}}px;">
+    <!-- 导航栏 -->
+    <view class="navigation-bar">人脸识别</view>
+    <!-- 图片标签区 -->
+    <view class="tag-wrap">
+      <block wx:if="{{!!labels.length}}">
+        <view class="tag-item" wx:for="{{labels}}" wx:key="index">{{item.Name}}</view>
+      </block>
+    </view>
+    <!-- 图片预览区 -->
+    <view class="preview">
+      <view class="original-wrap">
+        <image wx:if="{{!cropImageUrl}}" class="bg" mode="widthFix" src="/images/icon_select_image.png" bindtap="upload"></image>
+        <image mode="widthFix" src="{{ cropImageUrl ? cropImageUrl : ''}}"></image>
+        <block wx:for="{{faceInfos}}" wx:key="index">
+          <view 
+            data-index="{{index}}" 
+            class="face-box {{currentFaceIndex == index ? 'active' : ''}}" 
+            style="width:{{item.Width}}rpx;height:{{item.Height}}rpx;top:{{item.Y}}rpx;left:{{item.X}}rpx;" 
+            bindtap="changeFace"
+          ></view>
+          <view 
+            class="face-info"
+            style="top:{{item.FaceInfo.Y}}rpx;left:{{item.FaceInfo.X}}rpx;"
+            hidden="{{currentFaceIndex != index}}"
+          >
+            <view>年龄：{{item.FaceInfo.Age}}</view>
+            <view>表情：{{item.FaceInfo.Expression}}</view>
+            <view>魅力：{{item.FaceInfo.Beauty}}</view>
+            <view>眼镜：{{item.FaceInfo.Glass}}</view>
+            <view>帽子：{{item.FaceInfo.Hat}}</view>
+            <view>口罩：{{item.FaceInfo.Mask}}</view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <!-- 信息 -->
+    <view class="msg">{{cropImageUrl ? '点击人脸框，可以显示人脸魅力值' : '上传带人脸的正面照'}}</view>
+    <!-- 人脸框 -->
+    <view class="face-wrap" wx:if="{{cropImageUrl}}" bindtap="changeFace">
+      <view class="face-item {{currentFaceIndex == -1 ? 'active' : ''}}">
+        <image data-index="-1" mode="heightFix" src="{{cropImageUrl}}"></image>
+      </view>
+      <block wx:for="{{faceInfos}}" wx:key="index">
+        <view class="face-item {{currentFaceIndex === index ? 'active' : ''}}">
+          <image data-index="{{index}}" mode="heightFix" src="{{item.FaceImageUrl}}"></image>
+        </view>
+      </block>
+    </view>
+
+    <!-- Footer -->
+    <view class="coryright">Copyright © 2020 Vincent F0ng</view>
+
+    <view class="footer" bindtap="upload">
+      <view class="btn">
+        <image class="icon" src="/images/icon_upload.png"></image>
+        <text class="icon-text">上传</text>
+      </view>
+    </view>
+  </view>
+</view>
