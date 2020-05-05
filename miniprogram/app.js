@@ -16,5 +16,9 @@ App({
     }
 
     this.globalData = {}
+  },
+  onShow: async function () {
+    const deviceWidth = wx.getSystemInfoSync().windowWidth
+    this.globalData.rpx = deviceWidth / 750
   }
 })

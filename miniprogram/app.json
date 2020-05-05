@@ -1,6 +1,8 @@
 {
   "pages": [
-    "pages/detectface/detectface",
+    "pages/avatar-render/avatar-render",
+    "pages/profile/profile",
+    "pages/detect-face/detect-face",
     "pages/index/index"
   ],
   "window": {
@@ -9,6 +11,25 @@
     "navigationBarBackgroundColor": "#FFF",
     "navigationBarTitleText": "Hi-face",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#CDCDCD",
+    "selectedColor": "#8992C8",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/avatar-render/avatar-render",
+        "text": "贴纸",
+        "iconPath": "images/icon_magic.png",
+        "selectedIconPath": "images/icon_magic_active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/icon_profile.png",
+        "selectedIconPath": "images/icon_profile_active.png"
+      }
+    ]
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2"

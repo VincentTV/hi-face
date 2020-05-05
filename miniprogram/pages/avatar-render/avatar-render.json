@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "cover": "/components/cover/cover"
+  },
+  "navigationBarTitleText": "贴纸"
+}

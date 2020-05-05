@@ -1,0 +1,21 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <view class="header">
+    <open-data class="avatar" type="userAvatarUrl"></open-data>
+    <open-data class="username" type="userNickName" default-text="点击登录"></open-data>
+  </view>
+
+  <view class="main">
+    <view class="title">我的相册</view>
+    <view class="msg" wx:if="{{!userData.photos.length}}">您还未添加过图片喔～</view>
+    <view class="grid" bindtap="preview" bindlongpress="showMenu">
+      <view class="grid-item" wx:for="{{userData.photos}}" wx:key="*this">
+        <image mode="aspectFill" src="{{item}}" data-index="{{index}}"></image>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    Copyright © 2020 Vincent F0ng
+  </view>
+</view>

@@ -1,0 +1,85 @@
+/* components/cover/cover.wxss */
+.cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  width: 100%;
+  background-color: #000000bb;
+  padding-top: 75rpx;
+  box-sizing: border-box;
+}
+
+.cover .render-wrap {
+  width: 750rpx;
+  min-height: 200rpx;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.cover .render-wrap .render-image {
+  width: 600rpx;
+}
+.cover .render-wrap .title {
+  font-size: 12px;
+  display: block;
+  position: absolute;
+  top: 10rpx;
+  left: 75rpx;
+  padding: 10rpx;
+  background-color: #00000044;
+  color: #fff;
+  border-radius: 0 40rpx 40rpx 0;
+}
+.cover .render-wrap .close-btn {
+  font-size: 18px;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 75rpx;
+  background-color: #00000044;
+  color: #fff;
+  border-radius: 0 0 0 60rpx;
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 70rpx;
+  text-align: center;
+}
+
+.cover .danger {
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #e74c3c;
+  text-align: center;
+  margin: 75rpx 0;
+}
+
+.cover .btn-wrap {
+  padding: 0 40rpx;
+  margin: 75rpx 0;
+  display: flex;
+}
+
+.cover .btn-wrap .btn {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: normal;
+  padding: 16rpx;
+	border: 1rpx solid #fff;
+  border-radius: 40rpx;
+}
+.cover .btn-wrap .upload {
+  border: none;
+  background:linear-gradient(to right,#e66465, #9198e5);
+  margin-left: 40rpx;
+}
+.cover .btn-wrap .icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 15rpx;
+}

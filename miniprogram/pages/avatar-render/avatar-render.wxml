@@ -1,0 +1,102 @@
+<!--miniprogram/pages/index/index.wxml-->
+<view class="container">
+  <!-- <view class="title-wrap" wx:if="{{!originalPath}}">
+    <text class="title">请先上传图片，再添加贴纸</text>
+  </view> -->
+  <view class="main">
+    <!-- 预览区域 -->
+    <view class="preview">
+      <block wx:if="{{originalPath}}">
+        <view class="original-wrap" bindtap="hideAllBtn">
+          <canvas class="canvas" canvas-id="render" style="width: 600rpx;height:{{600*originalHeight/originalWidth + 'rpx'}};"></canvas>
+          <image mode="widthFix" src="{{ originalPath }}"></image>
+          <block wx:for="{{stickersList}}" wx:key="index">
+            <image 
+              class="sticker"
+              src="{{item.src}}"
+              data-index="{{index}}"
+              data-type="sticker"
+              catchtouchstart="touchStart" catchtouchmove="touchMove"
+              style="top:{{item.y-stickerSize/2-2+'px'}};left:{{item.x-stickerSize/2-2+'px'}};transform:rotate({{item.rotate+'deg'}}) scale({{item.scale}});"
+            ></image>
+            <image 
+              class="btn"
+              src="/images/icon_rotate.png"
+              data-index="{{index}}"
+              data-type="rotate"
+              hidden="{{showIndex !== index}}"
+              catchtouchstart="touchStart" catchtouchmove="touchMove"
+              style="top:{{item.rotateBtnY-btnSize/2+'px'}};left:{{item.rotateBtnX-btnSize/2+'px'}};"
+            ></image>
+            <image 
+              class="btn"
+              src="/images/icon_remove.png"
+              data-index="{{index}}"
+              data-type="remove"
+              hidden="{{showIndex !== index}}"
+              catchtouchstart="touchStart"
+              style="top:{{item.removeBtnY-btnSize/2+'px'}};left:{{item.removeBtnX-btnSize/2+'px'}};"
+            ></image>
+          </block>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="bg-wrap">
+          <image mode="widthFix" src="/images/icon_select_image.png" catchtap="usingCamera"></image>
+        </view>
+      </block>
+    </view>
+    <!-- 按钮区域 -->
+    <view class="text-msg" hidden="{{originalPath}}">更多选择</view>
+    <view class="btn-wrap">
+      <block wx:if="{{originalPath}}">
+        <button class="btn" bindtap="removeImage">
+          <image class="btn-image"  mode="heightFix" src="/images/icon_remove_image.png"></image>
+        </button>
+        <button class="btn" bindtap="renderImg">
+          <image class="btn-image" mode="heightFix" src="/images/icon_save_image.png"></image>
+        </button>
+      </block>
+      <block wx:else>
+        <button class="btn" open-type="getUserInfo" bindgetuserinfo="usingAvatar">
+          <image mode="heightFix" src="/images/icon_using_avatar.png"></image>
+          <text>使用头像</text>
+        </button>
+        <button class="btn" bindtap="usingCamera">
+          <image mode="heightFix" src="/images/icon_using_camera.png"></image>
+          <text>使用相机</text>
+        </button>
+      </block>
+      
+    </view>
+  </view>
+
+
+  <view class="footer">
+    <block wx:if="{{originalPath}}">
+      <view class="switch-wrap" hidden="{{!originalPath}}">
+        <block wx:for="{{stickers}}" wx:key="id">
+          <view id="{{item.id}}" class="switch-item {{active == item.id ? 'active' : ''}}" bindtap="switchSticker">
+            <image class="switch-icon" src="{{item.src}}1.png"></image>
+            <text>{{item.title}}</text>
+          </view>
+        </block>
+      </view>
+      <scroll-view scroll-x="true" enable-flex="true" class="scroll-wrap" bindtap="addSticker" hidden="{{!originalPath}}">
+        <block wx:for="{{stickers[active].count}}" wx:key="*this">
+          <image class="icon" data-src="{{stickers[active].src+(index+1)}}.png" src="{{stickers[active].src+(index+1)}}.png"></image>
+        </block>
+      </scroll-view>
+    </block>
+    <block wx:else>
+      <view class="footer-msg">
+      <view>备注：</view>
+      <view>选择后会识别图中人脸，并自动带上口罩</view>
+      <view>识别过程需几秒钟，请耐心等待</view>
+    </view>
+    </block>
+  </view>
+</view>
+
+<cover renderedPath="{{renderedPath}}" showCover="{{showCover}}" isVerified="{{false}}"/>
+<!-- <cover originalPath="{{originalPath}}" wx:if="{{true}}"/> -->

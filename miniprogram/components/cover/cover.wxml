@@ -1,0 +1,21 @@
+<!--components/cover/cover.wxml-->
+<view class="cover" hidden="{{!showCover}}">
+
+  <view class="render-wrap" bindtap="preview">
+    <text class="title">点击全屏预览，长按可保存分享图片</text>
+    <text class="close-btn" catchtap="hideCover">⤫</text>
+    <image class="render-image" mode="widthFix" src="{{ renderedPath }}" show-menu-by-longpress></image>
+  </view>
+
+  <view class="danger" hidden="{{pass}}">图片审核未通过，不能上传云相册</view>
+  <view class="btn-wrap">
+    <button plain class="btn" bindtap="share" open-type="share">
+      <image class="icon" src="/images/icon_share.png"></image>
+      分享给好友
+    </button>
+    <button plain class="btn upload" open-type="getUserInfo" bindgetuserinfo="upload">
+      <image class="icon" src="/images/icon_upload.png"></image>
+      保存到云相册
+    </button>
+  </view>
+</view>

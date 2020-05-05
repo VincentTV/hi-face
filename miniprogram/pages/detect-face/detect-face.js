@@ -43,7 +43,7 @@ Page({
       // 获取标签
       await this.getImageTag()
       // 截图
-      await this.getCropImageUrl(600,600)
+      this.getCropImageUrl(600,600)
       // 人脸识别
       await this.detectFace()
       // 更新视图
